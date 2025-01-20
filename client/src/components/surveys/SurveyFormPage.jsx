@@ -410,7 +410,7 @@ export default function SurveyFormPage() {
                         onChange={(e) => handleItemChange(index, "color", e.target.value)}
                         className="w-full px-3 py-2 border rounded mb-2"
                       />
-                      <textarea
+                      <input
                         placeholder="Glazing"
                         value={item.glazing}
                         onChange={(e) => handleItemChange(index, "glazing", e.target.value)}
