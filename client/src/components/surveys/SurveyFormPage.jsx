@@ -104,59 +104,6 @@ export default function SurveyFormPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header Section */}
-      <div className="border-b pb-4 mb-4 text-center">
-        {/* First Row: Logo and Company Details */}
-        <div className="flex justify-between items-center mb-4">
-          {/* Logo and file upload */}
-          <div className="flex flex-col items-center w-1/3">
-            <div className="mb-4">
-              {companyDetails.logo ? (
-                <img src={companyDetails.logo} alt="Company Logo" className="w-24 h-24 object-contain" />
-              ) : (
-                <p className="text-gray-500">No Logo Uploaded</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-                className="mb-4 text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Company Details */}
-          <div className="flex flex-col items-center w-2/3">
-            <h1 className="text-2xl font-bold">{companyDetails.name}</h1>
-            <p>{companyDetails.cin}</p>
-            <p>{companyDetails.description}</p>
-            <p>{companyDetails.address}</p>
-          </div>
-        </div>
-
-        {/* Second Row: Quotations Centered */}
-        <div className="text-center mb-4">
-          <p className="font-semibold">{companyDetails.name}</p>
-        </div>
-
-        {/* Third Row: Date (left) and Quotation No (right) */}
-        <div className="flex justify-between mb-4">
-          <div className="text-left">
-            <p className="text-sm">Date: {quotationDate}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm">Quotation No: {quotationNumber}</p>
-          </div>
-        </div>
-
-        {/* Fourth Row: CIN, Name, and Address */}
-        <div className="flex justify-between mb-4">
-          <p className="text-sm">To</p>
-          <p className="text-sm">{companyDetails.name}</p>
-          <p className="text-sm">{companyDetails.address}</p>
-        </div>
-      </div>
 
       {isPreview ? (
         // Preview Mode
@@ -247,88 +194,234 @@ export default function SurveyFormPage() {
       ) : (
         // Edit Mode
         <div>
+
+          <div className="mb-4">
+            <label>Company Logo:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoUpload}
+              className="w-full px-4 py-2 border rounded mb-2"
+            />
+          </div>
+          {/* Company Details */}
+          <div className="flex flex-wrap mb-4">
+            {/* Company Name */}
+            <div className="w-full sm:w-1/3 mb-4">
+              <label>Company Name:</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Name"
+              />
+            </div>
+
+            {/* CIN */}
+            <div className="w-full sm:w-1/3 mb-4">
+              <label>CIN:</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Name"
+              />
+            </div>
+
+            {/* Company Address */}
+            <div className="w-full sm:w-1/3 mb-4">
+              <label>Company Address:</label>
+              <input
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Address"
+              />
+            </div>
+          </div>
+
+
+          {/* Quotation Details */}
+          <div className="flex flex-wrap mb-4">
+            {/* Date */}
+            <div className="w-full sm:w-1/2 mb-4">
+              <label>Date:</label>
+              <input
+                type="text"
+                value={clientName}
+                onChange={(e) => setClientName(e.target.value)}
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Name"
+              />
+            </div>
+
+            {/* Quotation No */}
+            <div className="w-full sm:w-1/2 mb-4">
+              <label>Quotation No:</label>
+              <input
+                className="w-full px-4 py-2 border rounded"
+                placeholder="Client Address"
+              />
+            </div>
+          </div>
+
+
           {/* Client Details */}
-          <div className="mb-4">
-            <label>Client Name:</label>
-            <input
-              type="text"
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
-              className="w-full px-4 py-2 border rounded mb-2"
-              placeholder="Client Name"
-            />
+          <div className="flex flex-wrap mb-4">
+            {/* Client Name */}
+            <div className="w-full sm:w-1/2 mb-4">
+              <label>Client Name:</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Name"
+              />
+            </div>
+
+            {/* Client Address */}
+            <div className="w-full sm:w-1/2 mb-4">
+              <label>Client Address:</label>
+              <input
+                className="w-full px-4 py-2 border rounded mb-2"
+                placeholder="Client Address"
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label>Contact Info:</label>
-            <input
-              type="text"
-              value={contactInfo}
-              onChange={(e) => setContactInfo(e.target.value)}
-              className="w-full px-4 py-2 border rounded mb-2"
-              placeholder="Contact Information"
-            />
-          </div>
-          <div className="mb-4">
-            <label>Client Address:</label>
-            <textarea
-              value={clientAddress}
-              onChange={(e) => setClientAddress(e.target.value)}
-              className="w-full px-4 py-2 border rounded"
-              placeholder="Client Address"
-            />
-          </div>
+
 
           {/* Items Table */}
           <div className="mb-4">
             <h2 className="text-lg font-bold">Quotation Items</h2>
             {items.map((item, index) => (
-              <div key={item.id} className="border p-4 mb-2 rounded">
-                <div className="flex space-x-4 mb-2">
-                  <input
-                    type="text"
-                    placeholder="Type"
-                    value={item.type}
-                    onChange={(e) => handleItemChange(index, "type", e.target.value)}
-                    className="w-1/4 px-2 py-1 border rounded"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Position"
-                    value={item.position}
-                    onChange={(e) => handleItemChange(index, "position", e.target.value)}
-                    className="w-1/4 px-2 py-1 border rounded"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Quantity"
-                    value={item.quantity}
-                    onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value) || 0)}
-                    className="w-1/4 px-2 py-1 border rounded"
-                  />
+              <div key={item.id} className="border p-4 mb-4 rounded-lg shadow-sm">
+
+                {/* First Section */}
+                <div className="mb-4">
+                  <div className="flex flex-wrap mb-4">
+                    {/* Type Selector */}
+                    <div className="w-full sm:w-1/4 mb-4">
+                      <label className="block text-sm font-semibold mb-2">Position Type</label>
+                      <select
+                        value={item.type}
+                        onChange={(e) => handleItemChange(index, "type", e.target.value)}
+                        className="w-full px-3 py-2 border rounded"
+                      >
+                        <option value="" disabled>Position Type</option>
+                        <option value="Option1">Option 1</option>
+                        <option value="Option2">Option 2</option>
+                        <option value="Option3">Option 3</option>
+                      </select>
+                    </div>
+
+                    {/* Quantity Input */}
+                    <div className="w-full sm:w-1/4 mb-4">
+                      <label className="block text-sm font-semibold mb-2">Quantity</label>
+                      <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={item.quantity}
+                        onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value) || 0)}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+
+                    {/* Area Input */}
+                    <div className="w-full sm:w-1/4 mb-4">
+                      <label className="block text-sm font-semibold mb-2">Area (Sqft)</label>
+                      <input
+                        type="number"
+                        placeholder="Area (Sqft)"
+                        value={item.area}
+                        onChange={(e) => handleItemChange(index, "area", parseFloat(e.target.value) || 0)}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+
+                    {/* Unit Price Input */}
+                    <div className="w-full sm:w-1/4 mb-4">
+                      <label className="block text-sm font-semibold mb-2">Unit Price</label>
+                      <input
+                        type="number"
+                        placeholder="Unit Price"
+                        value={item.unitPrice}
+                        onChange={(e) => handleItemChange(index, "unitPrice", parseFloat(e.target.value) || 0)}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex space-x-4">
-                  <textarea
-                    placeholder="Description"
-                    value={item.description}
-                    onChange={(e) => handleItemChange(index, "description", e.target.value)}
-                    className="w-2/3 px-2 py-1 border rounded"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Area (Sqft)"
-                    value={item.area}
-                    onChange={(e) => handleItemChange(index, "area", parseFloat(e.target.value) || 0)}
-                    className="w-1/6 px-2 py-1 border rounded"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Unit Price"
-                    value={item.unitPrice}
-                    onChange={(e) => handleItemChange(index, "unitPrice", parseFloat(e.target.value) || 0)}
-                    className="w-1/6 px-2 py-1 border rounded"
-                  />
+
+
+
+                {/* Second Section */}
+                <div className="flex flex-wrap mb-4">
+                  {/* Image Section (Left side) */}
+                  <div className="w-full sm:w-1/2 mb-4">
+                    <div className="border p-4 rounded-lg mb-4">
+                      <label className="block mb-2">Image</label>
+                      <input
+                        type="file"
+                        onChange={(e) => handleImageChange(index, e.target.files[0])}
+                        className="mb-4"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Height (mm)"
+                        value={item.imageSize}
+                        onChange={(e) => handleItemChange(index, "imageSize", parseFloat(e.target.value) || 0)}
+                        className="w-full px-3 py-2 border rounded mb-4"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Width (mm)"
+                        value={item.imageSize}
+                        onChange={(e) => handleItemChange(index, "imageSize", parseFloat(e.target.value) || 0)}
+                        className="w-full px-3 py-2 border rounded mb-4"
+                      />
+                      {item.image && (
+                        <img
+                          src={URL.createObjectURL(item.image)}
+                          alt="Item"
+                          style={{ width: `${item.imageSize}px`, height: 'auto' }}
+                          className="mt-4"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Window Details Section (Right side) */}
+                  <div className="w-full sm:w-1/2 mb-4">
+                    <div className="mb-4">
+                      <label className="block mb-2">Window Details</label>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        value={item.name}
+                        onChange={(e) => handleItemChange(index, "name", e.target.value)}
+                        className="w-full px-3 py-2 border rounded mb-2"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Size"
+                        value={item.size}
+                        onChange={(e) => handleItemChange(index, "size", e.target.value)}
+                        className="w-full px-3 py-2 border rounded mb-2"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Color"
+                        value={item.color}
+                        onChange={(e) => handleItemChange(index, "color", e.target.value)}
+                        className="w-full px-3 py-2 border rounded mb-2"
+                      />
+                      <textarea
+                        placeholder="Glazing"
+                        value={item.glazing}
+                        onChange={(e) => handleItemChange(index, "glazing", e.target.value)}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right mt-2">
+
+                {/* Remove Button */}
+                <div className="text-right mt-4">
                   <button
                     onClick={() => handleRemoveItem(index)}
                     className="text-red-500 text-sm"
@@ -336,8 +429,13 @@ export default function SurveyFormPage() {
                     Remove
                   </button>
                 </div>
+
+
               </div>
             ))}
+
+
+
             <button
               onClick={handleAddItem}
               className="bg-indigo-600 text-white px-4 py-2 rounded"
@@ -345,6 +443,7 @@ export default function SurveyFormPage() {
               Add Item
             </button>
           </div>
+
         </div>
       )}
 
@@ -367,6 +466,12 @@ export default function SurveyFormPage() {
           className="bg-indigo-600 text-white px-4 py-2 rounded"
         >
           Save
+        </button>
+        <button
+          onClick={handleSaveQuotation}
+          className="bg-indigo-600 text-white px-4 py-2 rounded"
+        >
+          Publish
         </button>
       </div>
     </div>
