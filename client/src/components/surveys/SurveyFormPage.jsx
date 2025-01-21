@@ -2,22 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SurveyFormPage() {
+  const [companyName, setCompanyName] = useState("");
+  const [cin, setCin] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+
+  const [date, setDate] = useState("");
+  const [quotationNo, setQuotationNo] = useState("");
+
   const [clientName, setClientName] = useState("");
-  const [contactInfo, setContactInfo] = useState("");
   const [clientAddress, setClientAddress] = useState("");
-  const [quotationTitle, setQuotationTitle] = useState("Quotation");
-  const [quotationDate, setQuotationDate] = useState(new Date().toISOString().slice(0, 10));
-  const [quotationNumber, setQuotationNumber] = useState("QTN-001");
+
   const [items, setItems] = useState([]);
   const [discount, setDiscount] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
-  const [companyDetails, setCompanyDetails] = useState({
-    name: "Your Company Name",
-    address: "Your Company Address",
-    cin: "CIN: UXXXXXXXXX",
-    description: "Company Description",
-    logo: "",
-  });
   const navigate = useNavigate();
 
   // Add a new item
@@ -65,17 +62,20 @@ export default function SurveyFormPage() {
   const handleSaveQuotation = () => {
     const { totalArea, totalUnits, grandTotal } = calculateTotals();
     const quotation = {
+      companyName,
+      cin,
+      companyAddress,
+      quotationNo,
+      date,
       clientName,
-      contactInfo,
       clientAddress,
-      title: quotationTitle,
-      date: quotationDate,
-      number: quotationNumber,
+      quotationTitle: "quotation",
       items,
       discount,
       totals: { totalArea, totalUnits, grandTotal },
     };
     const quotations = JSON.parse(localStorage.getItem("quotations")) || [];
+    console.log("quotations data:::", quotations);
     quotations.push(quotation);
     localStorage.setItem("quotations", JSON.stringify(quotations));
 
@@ -112,9 +112,8 @@ export default function SurveyFormPage() {
           <table className="table-auto w-full border mb-4">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-4 py-2">#</th>
+                <th className="px-4 py-2">S.N.</th>
                 <th className="px-4 py-2">Type</th>
-                <th className="px-4 py-2">Position</th>
                 <th className="px-4 py-2">Quantity</th>
                 <th className="px-4 py-2">Description</th>
                 <th className="px-4 py-2">Area (Sqft)</th>
@@ -126,7 +125,6 @@ export default function SurveyFormPage() {
                 <tr key={item.id} className="border-b">
                   <td className="px-4 py-2 text-center">{index + 1}</td>
                   <td className="px-4 py-2">{item.type}</td>
-                  <td className="px-4 py-2">{item.position}</td>
                   <td className="px-4 py-2 text-center">{item.quantity}</td>
                   <td className="px-4 py-2">{item.description}</td>
                   <td className="px-4 py-2 text-right">{item.area.toFixed(2)}</td>
@@ -211,6 +209,8 @@ export default function SurveyFormPage() {
               <label>Company Name:</label>
               <input
                 type="text"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Name"
               />
@@ -221,6 +221,8 @@ export default function SurveyFormPage() {
               <label>CIN:</label>
               <input
                 type="text"
+                value={cin}
+                onChange={(e) => setCin(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Name"
               />
@@ -230,6 +232,9 @@ export default function SurveyFormPage() {
             <div className="w-full sm:w-1/3 mb-4">
               <label>Company Address:</label>
               <input
+                type="text"
+                value={companyAddress}
+                onChange={(e) => setCompanyAddress(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Address"
               />
@@ -244,8 +249,8 @@ export default function SurveyFormPage() {
               <label>Date:</label>
               <input
                 type="text"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Name"
               />
@@ -255,6 +260,9 @@ export default function SurveyFormPage() {
             <div className="w-full sm:w-1/2 mb-4">
               <label>Quotation No:</label>
               <input
+                type="text"
+                value={quotationNo}
+                onChange={(e) => setQuotationNo(e.target.value)}
                 className="w-full px-4 py-2 border rounded"
                 placeholder="Client Address"
               />
@@ -269,6 +277,8 @@ export default function SurveyFormPage() {
               <label>Client Name:</label>
               <input
                 type="text"
+                value={clientName}
+                onChange={(e) => setClientName(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Name"
               />
@@ -278,6 +288,9 @@ export default function SurveyFormPage() {
             <div className="w-full sm:w-1/2 mb-4">
               <label>Client Address:</label>
               <input
+                type="text"
+                value={clientAddress}
+                onChange={(e) => setClientAddress(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
                 placeholder="Client Address"
               />
@@ -347,8 +360,6 @@ export default function SurveyFormPage() {
                   </div>
                 </div>
 
-
-
                 {/* Second Section */}
                 <div className="flex flex-wrap mb-4">
                   {/* Image Section (Left side) */}
@@ -374,14 +385,14 @@ export default function SurveyFormPage() {
                         onChange={(e) => handleItemChange(index, "imageSize", parseFloat(e.target.value) || 0)}
                         className="w-full px-3 py-2 border rounded mb-4"
                       />
-                      {item.image && (
+                      {/* {item.image && (
                         <img
                           src={URL.createObjectURL(item.image)}
                           alt="Item"
                           style={{ width: `${item.imageSize}px`, height: 'auto' }}
                           className="mt-4"
                         />
-                      )}
+                      )} */}
                     </div>
                   </div>
 

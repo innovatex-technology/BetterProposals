@@ -3,6 +3,7 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Dashboard from './components/dashboard/Dashboard';
 import Profile from './components/dashboard/Profile';
+import AdminLogin from './components/login/AdminLogin';
 import LoginPage from './components/login/LoginPage';
 import SurveyFormPage from './components/surveys/SurveyFormPage';
 import SurveyListPage from './components/surveys/SurveyListPage';
@@ -23,7 +24,7 @@ function App() {
           <Routes>
             
             <Route path="/" element={<ProductPricing />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<AdminLogin />} />
             <Route path="/pricing/pro" element={<PaymentPage />} />
             <Route path="/signup" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
