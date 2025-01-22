@@ -149,10 +149,10 @@ export default function ProductPricing() {
                   responses
                 </p>
                 <Link
-                  to="/surveys"
+                  to="/Quotations"
                   className="text-indigo-600 mt-4 inline-block hover:underline"
                 >
-                  View Survey
+                  View Quotations
                 </Link>
               </div>
             ))}

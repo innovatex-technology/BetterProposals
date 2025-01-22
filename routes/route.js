@@ -7,6 +7,7 @@ const { refreshAccessToken, authenticateToken } = require('../controller/jwt-con
 // const { uploadImage, getImage, getImageUForPages,saveCareerData , uploadBlogImage, uploadNewsletter} = require('../controller/image-controller.js');
 const { fetchPageData, postPageData } = require('../controller/page-controller.js')
 // const { postContactUs, postUtility,addNewCategory, getUtilityByCkey, getallContactUs , updatetUtility, saveSubcribers,getAllSubcribers,getAllNewsLetterList,saveConsent} = require('../controller/utility-controller.js')
+const { saveQuotation, getAllQuotations, updateQuotation, getQuotationById } = require('../controller/quotation-controller.js');
 
 const router = express.Router();
 
@@ -71,5 +72,9 @@ router.post("/api/v1/register",createUser);
 // router.post("/api/v1/consent", saveConsent)
 // router.post("/api/v1/utility/blogcategory",authenticateToken, addNewCategory)
 
+router.post('/api/v1/quotation', saveQuotation);
+router.get('/api/v1/quotations', getAllQuotations);
+router.put('/api/v1/quotation/:id', updateQuotation);
+router.get('/api/v1/quotation/:id', getQuotationById);
 
 module.exports = router;

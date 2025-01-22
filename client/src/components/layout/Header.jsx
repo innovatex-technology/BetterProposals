@@ -37,8 +37,8 @@ export default function Header() {
               <Link to="/dashboard" className="hover:text-indigo-200">
                 Dashboard
               </Link>
-              <Link to="/surveys" className="hover:text-indigo-200">
-                Surveys
+              <Link to="/quotations" className="hover:text-indigo-200">
+              Quotations
               </Link>
               <Link to="/reports" className="hover:text-indigo-200">
                 Reports

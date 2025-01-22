@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiService } from "../common/apiService";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-export default function SurveyFormPage() { 
+export default function SurveyFormPage() {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [companyName, setCompanyName] = useState("");
   const [cin, setCin] = useState("");
@@ -54,6 +57,10 @@ export default function SurveyFormPage() {
     setItems(updatedItems);
   };
 
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate);
+  };
+
   // Calculate totals
   const calculateTotals = () => {
     const totalArea = items.reduce((sum, item) => sum + (item.area || 0), 0);
@@ -65,7 +72,7 @@ export default function SurveyFormPage() {
   };
 
   // Save quotation
-  const handleSaveQuotation = () => {
+  const handleSaveQuotation = async () => {
     const { totalArea, totalUnits, grandTotal } = calculateTotals();
     const quotation = {
       companyLogo,
@@ -81,12 +88,33 @@ export default function SurveyFormPage() {
       discount,
       totals: { totalArea, totalUnits, grandTotal },
     };
-    const quotations = JSON.parse(localStorage.getItem("quotations")) || [];
-    console.log("quotations data:::", quotations);
-    quotations.push(quotation);
-    localStorage.setItem("quotations", JSON.stringify(quotations));
 
-    navigate("/quotations", { state: { quotation } });
+    try {
+      // Call the API to save the quotation
+      const response = await apiService({
+        path: "/quotation",
+        method: "POST",
+        body: quotation,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to save quotation:", errorData);
+        alert("Failed to save quotation: " + errorData.message);
+        return; // Stop further execution if API fails
+      }
+
+      const data = await response.json(); // Parse the response JSON
+      console.log("Quotation saved successfully:", data);
+
+      // Navigate to the quotations page with the saved quotation data
+      navigate("/quotations", { state: { quotation: data } });
+    } catch (error) {
+      console.error("Error occurred while saving quotation:", error);
+      alert("An error occurred while saving the quotation.");
+    }
+
+
   };
 
   // Toggle preview mode
@@ -94,10 +122,10 @@ export default function SurveyFormPage() {
     setIsPreview(!isPreview);
   };
 
-// Handle logo upload
-const handleLogoUpload = (e) => {
-  setCompanyLogo(e.target.files[0]);
-};
+  // Handle logo upload
+  const handleLogoUpload = (e) => {
+    setCompanyLogo(e.target.files[0]);
+  };
 
   const { totalArea, totalUnits, grandTotal, pricePerSqft } = calculateTotals();
 
@@ -246,13 +274,12 @@ const handleLogoUpload = (e) => {
           <div className="flex flex-wrap mb-4">
             {/* Date */}
             <div className="w-full sm:w-1/2 mb-4">
-              {/* <label>Date:</label> */}
-              <input
-                type="text"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+              <DatePicker
+                selected={date}
+                onChange={handleDateChange}
                 className="w-full px-4 py-2 border rounded mb-2"
-                placeholder="Date"
+                placeholderText="Select a Date"
+                dateFormat="dd/MM/yyyy" // You can adjust the date format here
               />
             </div>
 
