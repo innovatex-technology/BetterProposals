@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SurveyFormPage() {
+export default function SurveyFormPage() { 
+  const [companyLogo, setCompanyLogo] = useState(null);
   const [companyName, setCompanyName] = useState("");
   const [cin, setCin] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
@@ -21,13 +22,18 @@ export default function SurveyFormPage() {
   const handleAddItem = () => {
     const newItem = {
       id: Date.now(),
-      type: "",
-      position: "",
+      type: "Option1",
       quantity: 1,
-      description: "",
       area: 0,
       unitPrice: 0,
       total: 0,
+      image: null,
+      imageHeight: 0,
+      imageWidth: 0,
+      name: "",
+      size: "",
+      color: "",
+      glazing: "",
     };
     setItems([...items, newItem]);
   };
@@ -62,6 +68,7 @@ export default function SurveyFormPage() {
   const handleSaveQuotation = () => {
     const { totalArea, totalUnits, grandTotal } = calculateTotals();
     const quotation = {
+      companyLogo,
       companyName,
       cin,
       companyAddress,
@@ -87,17 +94,10 @@ export default function SurveyFormPage() {
     setIsPreview(!isPreview);
   };
 
-  // Handle company logo upload
-  const handleLogoUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setCompanyDetails((prev) => ({ ...prev, logo: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+// Handle logo upload
+const handleLogoUpload = (e) => {
+  setCompanyLogo(e.target.files[0]);
+};
 
   const { totalArea, totalUnits, grandTotal, pricePerSqft } = calculateTotals();
 
@@ -206,37 +206,37 @@ export default function SurveyFormPage() {
           <div className="flex flex-wrap mb-4">
             {/* Company Name */}
             <div className="w-full sm:w-1/3 mb-4">
-              <label>Company Name:</label>
+              {/* <label>Company Name:</label> */}
               <input
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
-                placeholder="Client Name"
+                placeholder="Company Name"
               />
             </div>
 
             {/* CIN */}
             <div className="w-full sm:w-1/3 mb-4">
-              <label>CIN:</label>
+              {/* <label>CIN:</label> */}
               <input
                 type="text"
                 value={cin}
                 onChange={(e) => setCin(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
-                placeholder="Client Name"
+                placeholder="CIN"
               />
             </div>
 
             {/* Company Address */}
             <div className="w-full sm:w-1/3 mb-4">
-              <label>Company Address:</label>
+              {/* <label>Company Address:</label> */}
               <input
                 type="text"
                 value={companyAddress}
                 onChange={(e) => setCompanyAddress(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
-                placeholder="Client Address"
+                placeholder="Company Address"
               />
             </div>
           </div>
@@ -246,25 +246,25 @@ export default function SurveyFormPage() {
           <div className="flex flex-wrap mb-4">
             {/* Date */}
             <div className="w-full sm:w-1/2 mb-4">
-              <label>Date:</label>
+              {/* <label>Date:</label> */}
               <input
                 type="text"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full px-4 py-2 border rounded mb-2"
-                placeholder="Client Name"
+                placeholder="Date"
               />
             </div>
 
             {/* Quotation No */}
             <div className="w-full sm:w-1/2 mb-4">
-              <label>Quotation No:</label>
+              {/* <label>Quotation No:</label> */}
               <input
                 type="text"
                 value={quotationNo}
                 onChange={(e) => setQuotationNo(e.target.value)}
                 className="w-full px-4 py-2 border rounded"
-                placeholder="Client Address"
+                placeholder="Quotation No"
               />
             </div>
           </div>
@@ -274,7 +274,7 @@ export default function SurveyFormPage() {
           <div className="flex flex-wrap mb-4">
             {/* Client Name */}
             <div className="w-full sm:w-1/2 mb-4">
-              <label>Client Name:</label>
+              {/* <label>Client Name:</label> */}
               <input
                 type="text"
                 value={clientName}
@@ -286,7 +286,7 @@ export default function SurveyFormPage() {
 
             {/* Client Address */}
             <div className="w-full sm:w-1/2 mb-4">
-              <label>Client Address:</label>
+              {/* <label>Client Address:</label> */}
               <input
                 type="text"
                 value={clientAddress}
@@ -362,41 +362,33 @@ export default function SurveyFormPage() {
 
                 {/* Second Section */}
                 <div className="flex flex-wrap mb-4">
-                  {/* Image Section (Left side) */}
+                  {/* Image Section */}
                   <div className="w-full sm:w-1/2 mb-4">
                     <div className="border p-4 rounded-lg mb-4">
                       <label className="block mb-2">Image</label>
                       <input
                         type="file"
-                        onChange={(e) => handleImageChange(index, e.target.files[0])}
+                        onChange={(e) => handleItemChange(index, 'image', e.target.files[0])}
                         className="mb-4"
                       />
                       <input
                         type="number"
                         placeholder="Height (mm)"
-                        value={item.imageSize}
-                        onChange={(e) => handleItemChange(index, "imageSize", parseFloat(e.target.value) || 0)}
+                        value={item.imageHeight}
+                        onChange={(e) => handleItemChange(index, "imageHeight", parseFloat(e.target.value) || 0)}
                         className="w-full px-3 py-2 border rounded mb-4"
                       />
                       <input
                         type="number"
                         placeholder="Width (mm)"
-                        value={item.imageSize}
-                        onChange={(e) => handleItemChange(index, "imageSize", parseFloat(e.target.value) || 0)}
+                        value={item.imageWidth}
+                        onChange={(e) => handleItemChange(index, "imageWidth", parseFloat(e.target.value) || 0)}
                         className="w-full px-3 py-2 border rounded mb-4"
                       />
-                      {/* {item.image && (
-                        <img
-                          src={URL.createObjectURL(item.image)}
-                          alt="Item"
-                          style={{ width: `${item.imageSize}px`, height: 'auto' }}
-                          className="mt-4"
-                        />
-                      )} */}
                     </div>
                   </div>
 
-                  {/* Window Details Section (Right side) */}
+                  {/* Window Details Section */}
                   <div className="w-full sm:w-1/2 mb-4">
                     <div className="mb-4">
                       <label className="block mb-2">Window Details</label>
@@ -441,9 +433,9 @@ export default function SurveyFormPage() {
                   </button>
                 </div>
 
-
               </div>
             ))}
+
 
 
 
