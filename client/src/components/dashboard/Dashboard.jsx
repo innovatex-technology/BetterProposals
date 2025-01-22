@@ -39,11 +39,11 @@ export default function Dashboard() {
     <main className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Better Quotation Management</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Better Proposals Management</h1>
           <p className="text-gray-600">Manage and monitor your quotations</p>
         </div>
         <Link
-          to="/create-quotation" // Link to the create quotation page
+          to="/create-quotations" // Link to the create quotation page
           className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-indigo-700"
         >
           <Plus size={20} />

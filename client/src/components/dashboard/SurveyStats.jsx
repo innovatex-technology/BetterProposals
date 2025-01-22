@@ -9,7 +9,7 @@ export default function SurveyStats() {
             <BarChart2 size={24} className="text-blue-600" />
           </div>
           <div>
-            <p className="text-gray-600">Active Surveys</p>
+            <p className="text-gray-600">Active Proposal</p>
             <h3 className="text-2xl font-bold">24</h3>
           </div>
         </div>
@@ -20,7 +20,7 @@ export default function SurveyStats() {
             <BarChart2 size={24} className="text-blue-600" />
           </div>
           <div>
-            <p className="text-gray-600">Draft Surveys</p>
+            <p className="text-gray-600">Draft Proposal</p>
             <h3 className="text-2xl font-bold">1</h3>
           </div>
         </div>
@@ -31,7 +31,7 @@ export default function SurveyStats() {
             <BarChart2 size={24} className="text-blue-600" />
           </div>
           <div>
-            <p className="text-gray-600">completed Surveys</p>
+            <p className="text-gray-600">completed Proposal</p>
             <h3 className="text-2xl font-bold">24</h3>
           </div>
         </div>
