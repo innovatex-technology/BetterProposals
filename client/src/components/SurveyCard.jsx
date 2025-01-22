@@ -2,21 +2,21 @@ import { Calendar, Users, CheckSquare, ExternalLink, Edit, Share2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-export default function SurveyCard({ survey }) {
+export default function SurveyCard({ quotation }) {
   const navigate = useNavigate();
   const [shareLink, setShareLink] = useState('');
 
-  // Handle actions based on survey status
+  // Handle actions based on quotation status
   const handleViewDetails = () => {
-    navigate(`/reports/${survey.id}`); // Navigate to the Survey Report Page with the survey ID
+    navigate(`/quotations/${quotation.id}`); // Navigate to the Quotation Details Page with the quotation ID
   };
 
-  const handleCreateSurvey = () => {
-    navigate(`/create-quotations`); // Navigate to the Create Survey Page
+  const handleCreateQuotation = () => {
+    navigate(`/create-quotations`); // Navigate to the Create Quotation Page
   };
 
   const handleGenerateLink = () => {
-    const generatedLink = `${window.location.origin}/user-survey/${survey.id}`; // Generate a unique link
+    const generatedLink = `${window.location.origin}/user-quotation/${quotation.id}`; // Generate a unique link
     setShareLink(generatedLink); // Store the link for copying
   };
 
@@ -30,36 +30,36 @@ export default function SurveyCard({ survey }) {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">{survey.title}</h3>
+        <h3 className="text-lg font-semibold text-gray-800">{quotation.title}</h3>
         <span
           className={`px-2 py-1 rounded-full text-sm ${
-            survey.status === 'active'
+            quotation.status === 'active'
               ? 'bg-green-100 text-green-800'
-              : survey.status === 'completed'
+              : quotation.status === 'completed'
               ? 'bg-blue-100 text-blue-800'
               : 'bg-gray-100 text-gray-800'
           }`}
         >
-          {survey.status}
+          {quotation.status}
         </span>
       </div>
-      <p className="text-gray-600 mb-4">{survey.description}</p>
+      <p className="text-gray-600 mb-4">{quotation.description}</p>
       <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
         <div className="flex items-center">
           <Calendar size={16} className="mr-1" />
-          <span>{survey.dueDate}</span>
+          <span>{quotation.dueDate}</span>
         </div>
         
         {/* Display Respondents and Completion Rate only when status is 'completed' */}
-        {survey.status === 'completed' && (
+        {quotation.status === 'completed' && (
           <>
             <div className="flex items-center">
               <Users size={16} className="mr-1" />
-              <span>{survey.respondents} respondents</span>
+              <span>{quotation.respondents} respondents</span>
             </div>
             <div className="flex items-center">
               <CheckSquare size={16} className="mr-1" />
-              <span>{survey.completionRate}% completed</span>
+              <span>{quotation.completionRate}% completed</span>
             </div>
           </>
         )}
@@ -67,7 +67,7 @@ export default function SurveyCard({ survey }) {
 
       {/* Conditional Button Rendering */}
       <div className="flex justify-end gap-4">
-        {survey.status === 'completed' && (
+        {quotation.status === 'completed' && (
           <button
             onClick={handleViewDetails}
             className="text-indigo-600 hover:text-indigo-800 flex items-center space-x-1"
@@ -77,17 +77,17 @@ export default function SurveyCard({ survey }) {
           </button>
         )}
 
-        {survey.status === 'draft' && (
+        {quotation.status === 'draft' && (
           <button
-            onClick={handleCreateSurvey}
+            onClick={handleCreateQuotation}
             className="text-yellow-600 hover:text-yellow-800 flex items-center space-x-1"
           >
-            <span>Edit Survey</span>
+            <span>Edit Quotation</span>
             <Edit size={16} />
           </button>
         )}
 
-        {survey.status === 'active' && (
+        {quotation.status === 'active' && (
           <div>
             <button
               onClick={handleGenerateLink}

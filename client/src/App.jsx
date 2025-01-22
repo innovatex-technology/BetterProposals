@@ -33,7 +33,7 @@ function App() {
             <Route path="/quotations" element={<SurveyListPage />} />
             <Route path="/survey/:id" element={<SurveyDetailPage/>} />
             <Route path="/reports" element={<SurveyReportPage/>} />
-            <Route path="/reports/:id" element={<SurveyReportPage/>} />
+            <Route path="/quotations/:id" element={<SurveyReportPage/>} />
             <Route path="/user-survey" element={<UserSurveySystem/>} />
             <Route path="/user-survey/:id" element={<UserSurveySystem/>} />
             <Route path="/quotation" element={<QuotationForm/>} />
