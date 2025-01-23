@@ -85,8 +85,8 @@ const SurveyReportPage = ({ location }) => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Quotation Details</h1>
-      <div className="bg-white shadow-md rounded p-6" ref={reportRef}>
+      {/* <h1 className="text-2xl font-bold mb-6">Quotation Details</h1> */}
+      <div className="bg-white shadow-md rounded p-6 mx-12" ref={reportRef}>
         {/* Company Information */}
         <div className="mb-6">
           <div className="flex items-center w-full gap-6">
