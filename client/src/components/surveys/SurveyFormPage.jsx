@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { apiService } from "../common/apiService";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import companyLogos from "./../../assets/logo_stone.jpeg";
+import companyLogo2 from "./../../assets/aluk.png";
 
 export default function SurveyFormPage() {
-  const [companyLogo, setCompanyLogo] = useState(null);
+  const [companyLogo, setCompanyLogo] = useState(companyLogos);
   const [companyName, setCompanyName] = useState("");
   const [cin, setCin] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
@@ -84,6 +86,7 @@ export default function SurveyFormPage() {
       clientName,
       clientAddress,
       quotationTitle: "quotation",
+      status:"completed",
       items,
       discount,
       totals: { totalArea, totalUnits, grandTotal },
@@ -135,78 +138,217 @@ export default function SurveyFormPage() {
 
       {isPreview ? (
         // Preview Mode
-        <div>
-          {/* Items Table */}
-          <table className="table-auto w-full border mb-4">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="px-4 py-2">S.N.</th>
-                <th className="px-4 py-2">Type</th>
-                <th className="px-4 py-2">Quantity</th>
-                <th className="px-4 py-2">Description</th>
-                <th className="px-4 py-2">Area (Sqft)</th>
-                <th className="px-4 py-2">Total (INR)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <tr key={item.id} className="border-b">
-                  <td className="px-4 py-2 text-center">{index + 1}</td>
-                  <td className="px-4 py-2">{item.type}</td>
-                  <td className="px-4 py-2 text-center">{item.quantity}</td>
-                  <td className="px-4 py-2">{item.description}</td>
-                  <td className="px-4 py-2 text-right">{item.area.toFixed(2)}</td>
-                  <td className="px-4 py-2 text-right">{item.total.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="bg-white shadow-md rounded p-6 mx-12">
+          < div className="quotation-container">
+            {/* Company Information */}
+            <div className="mb-6">
+              <div className="flex items-center w-full gap-6">
+                {/* Company Logo */}
+                <div className="w-1/4">
+                  <img
+                    src={companyLogo2} // Use dummy logo if no logo is provided
+                    alt="Company Logo"
+                    className="w-full h-auto"
+                  />
+                </div>
 
-          {/* Footer Section */}
-          <div className="border-t pt-4">Grand Total:
-            <div className="flex justify-between">
-              <div>
-                <table className="table-auto w-full border">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="px-8 py-2">Total Sqft</th>
-                      <th className="px-4 py-2">Total Units</th>
-                      <th className="px-4 py-2">Price per Sqft</th>
-                      <th className="px-4 py-2">Grand Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {items.map((item, index) => (
-                      <tr key={item.id} className="border-b">
-                        <td className="px-4 py-2 text-center">{totalArea.toFixed(2)}</td>
-                        <td className="px-4 py-2">{totalUnits}</td>
-                        <td className="px-4 py-2">₹{pricePerSqft.toFixed(2)}</td>
-                        <td className="px-4 py-2 text-center">₹{grandTotal.toFixed(2)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                {/* Company Info */}
+                <div className="w-1/2">
+                  <p>
+                    <strong className="uppercase underline font-bold">
+                      {companyName}
+                    </strong>
+                  </p>
+                  <p>
+                    <strong>CIN:</strong>{" "}
+                    <strong className="uppercase">{cin}</strong>
+                  </p>
+                  <p>
+                    <strong>ADD:</strong>{" "}
+                    <strong className="uppercase">{companyAddress}</strong>
+                  </p>
+                </div>
+
+                {/* Duplicate Logo Section (if needed) */}
+                <div className="w-1/4">
+                  <img
+                    src={companyLogos} // Use dummy logo if no logo is provided
+                    alt="Company Logo"
+                    className="w-full h-auto"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="mt-8">
-            <div>
-              <h3 className="font-bold">TERMS AND CONDITIONS</h3>
-              <ul className="list-disc pl-5">
-                <li className="text-sm">1. ORDERS</li>
-                <ul className="pl-5">
-                  <li className="text-sm">
-                    a. All orders by customers must be submitted electronically and accepted by the company.
-                  </li>
+            {/* Quotation Details */}
+            <div className="mb-6">
+              <div className="text-center mb-4">
+                <p>
+                  <strong className="uppercase underline font-bold">
+                    quotation
+                  </strong>
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <p className="text-left">
+                  <strong>Date:</strong> {new Date(date).toLocaleDateString()}
+                </p>
+                <p className="text-right">
+                  <strong>Quotation No:</strong> {quotationNo}
+                </p>
+              </div>
+            </div>
+
+            {/* Client Information */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-2">To</h2>
+              <div>
+                <p>
+                  <strong className="uppercase font-bold">{clientName}</strong>
+                </p>
+                <p>{clientAddress}</p>
+              </div>
+            </div>
+
+            {/* Items Table */}
+            {items.map((item) => (
+            <table className="w-full border-collapse border-none bg-white" key={item._id}>
+              <thead>
+                <tr className="bg-white">
+                  <th className="border-t border-l px-4 py-2">Position</th>
+                  <th className="border-t px-4 py-2">Quantity [Pcs]</th>
+                  <th className="border-t px-4 py-2">Description</th>
+                  <th className="border-t px-4 py-2">Area (Sqft)</th>
+                  <th className="border-t border-r px-4 py-2">Total [INR]</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Bind First and Second Rows */}
+                
+                <tr className="text-center border-t">
+                  <td className="border-b border-l px-4 py-2" rowSpan="2">
+                  {item.type}
+                  </td>
+                  <td className="border-b px-4 py-2" rowSpan="2">
+                    {item.quantity}
+                  </td>
+                  <td className="border-b px-4 py-2" rowSpan="2">
+                    
+                  </td>
+                  <td className="border-b px-4 py-2" rowSpan="2">
+                    {item.area}
+                  </td>
+                  <td className="border-b border-r px-4 py-2" rowSpan="2">
+                    {item.unitPrice}
+                  </td>
+                </tr>
+
+                <tr className="text-center border-t"></tr>
+
+                {/* Render Interior View */}
+                <tr className="border-l border-r">
+                  <td colSpan="5" className="px-5">
+                    Interior View
+                  </td>
+                </tr>
+
+                {/* Render Items */}
+                
+                  {/* // <tr key={item._id}> */}
+                    <tr>
+                    <td
+                      colSpan="5"
+                      className="border-b col-span-5 border-l border-r px-4 py-2"
+                    >
+                      <div className="flex items-star gap-4">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 1625 2475"
+                          className="border border-gray-300"
+                          style={{
+                            height: "300px", // Display height
+                            width: "192px", // Display width
+                            padding: "10px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {/* Add any item-specific SVG content if available */}
+                        </svg>
+                        <div className="flex-1">
+                          <p>
+                            <span className="font-bold text-gray-700">
+                              {item.name} ({item.imageWidth} mm x {item.imageHeight} mm)
+                            </span>{" "}
+                            Consisting of a {item.type}.
+                          </p>
+                          <p>System: {item.size}</p>
+                          <p>Colours: {item.color}</p>
+                          <p>Glazing: {item.glazing}</p>
+                          <p>Unit Price: {item.unitPrice} INR</p>
+                          <p>Total: {item.total} INR</p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                
+              </tbody>
+            </table>
+          ))}
+            {/* Totals */}
+            <div className="mb-12">
+              {/* First Row: Grand Total */}
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold">Grand Total</h2>
+                <p>{grandTotal} INR</p>
+              </div>
+
+              {/* Second Row: Total Sqft, Total Units, Price Per Sqft */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <p className="text-left">
+                  <strong>Total Sqft:</strong> {totalArea} Sqft
+                </p>
+                <p className="text-center">
+                  <strong>Total Units:</strong> {totalUnits} Sqft
+                </p>
+                <p className="text-right">
+                  <strong>Price Per Sqft:</strong> ${grandTotal} INR
+                </p>
+              </div>
+            </div>
+
+            {/* Terms and Conditions */}
+            <div className="mt-8">
+              <div>
+                <h3 className="font-bold">TERMS AND CONDITIONS</h3>
+                <ul className="list-disc pl-5">
+                  <li className="text-sm">1. ORDERS</li>
+                  <ul className="pl-5">
+                    <li className="text-sm">
+                      a. All orders must be placed via mail, post, or electronic means and
+                      are subject to acceptance by GALAXY ENCLAVE PVT. LTD., either in
+                      full or in part.
+                    </li>
+                    <li className="text-sm">
+                      b. Glass specifications are tailored to the customer's requirements,
+                      and GALAXY ENCLAVE PVT. LTD. does not provide any warranty or
+                      guarantee for the same.
+                    </li>
+                  </ul>
+                  <li className="text-sm">2. OFFER VALIDITY</li>
+                  <ul className="pl-5">
+                    <li className="text-sm">
+                      a. This quotation is valid for 15 days from the date of issuance.
+                    </li>
+                    <li className="text-sm">
+                      b. The offer validity is subject to changes in Nalco rates or
+                      exchange rates, whichever occurs earlier.
+                    </li>
+                  </ul>
                 </ul>
-                <li className="text-sm">2. OFFER VALIDITY</li>
-                <ul className="pl-5">
-                  <li className="text-sm">
-                    a. This quotation is valid for 15 days from the date of issuance.
-                  </li>
-                </ul>
-              </ul>
+              </div>
             </div>
           </div>
 
@@ -218,7 +360,6 @@ export default function SurveyFormPage() {
           </button>
         </div>
       ) : (
-        // Edit Mode
         <div>
 
           <div className="mb-4">

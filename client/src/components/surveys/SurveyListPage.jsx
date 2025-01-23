@@ -1,33 +1,72 @@
-import { useNavigate } from 'react-router-dom';
-import QuotationCard from '../SurveyCard'; // Import the QuotationCard component
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import QuotationCard from "../SurveyCard"; // Import the QuotationCard component
+import { apiService } from "../common/apiService"; // Import the API service
 
 export default function SurveyListPage() {
   const navigate = useNavigate();
-  
-  // Sample dummy quotation data with added details for better rendering
-  const dummyQuotations = [
-    { id: 1, title: 'Quotation 1', description: 'Description for Quotation 1', createdOn: '2024-12-01', status: 'active', dueDate: '2024-12-15', totalAmount: 50000, discount: 10 },
-    { id: 2, title: 'Quotation 2', description: 'Description for Quotation 2', createdOn: '2024-12-02', status: 'draft', dueDate: '2024-12-16', totalAmount: 30000, discount: 5 },
-    { id: 3, title: 'Quotation 3', description: 'Description for Quotation 3', createdOn: '2024-12-03', status: 'draft', dueDate: '2024-12-17', totalAmount: 25000, discount: 8 },
-    { id: 4, title: 'Annual IT Equipment Purchase', description: 'Quotation for annual IT equipment purchase', createdOn: '2024-12-04', status: 'completed', dueDate: '2024-12-18', totalAmount: 70000, discount: 15 },
-    { id: 5, title: 'Employee Gifts Quotation', description: 'Quotation for employee satisfaction gifts', createdOn: '2024-12-05', status: 'completed', dueDate: '2024-12-19', totalAmount: 20000, discount: 10 },
-  ];
+  const [quotations, setQuotations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Assuming we are handling login state here (could be from context or global state)
   const isLoggedIn = true; // Replace with actual login state logic
 
+  // Fetch quotations from the API
+  const fetchQuotations = async () => {
+    setLoading(true); // Set loading to true before fetching data
+    try {
+      const response = await apiService({
+        path: "/quotations", // Replace with your API endpoint
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError("Failed to fetch quotations: " + errorData.message);
+        console.error("Failed to fetch quotations:", errorData);
+        return;
+      }
+
+      const data = await response.json();
+      setQuotations(data.data || []); // Update state with fetched quotations
+    } catch (err) {
+      setError("An error occurred while fetching the quotations.");
+      console.error("Error while fetching quotations:", err);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  // Call fetchQuotations on page load
+  useEffect(() => {
+    fetchQuotations();
+  }, []); // Empty dependency array ensures it runs only once
+
   if (!isLoggedIn) {
     // If user is not logged in, redirect to login page
-    navigate('/');
+    navigate("/");
+  }
+
+  if (loading) {
+    return <div className="text-center">Loading quotations...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Quotations List</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dummyQuotations.map((quotation) => (
-          <QuotationCard key={quotation.id} quotation={quotation} /> // Use QuotationCard to display the quotation
-        ))}
+        {quotations.length > 0 ? (
+          quotations.map((quotation) => (
+            <QuotationCard key={quotation.id || quotation._id} quotation={quotation} />
+          ))
+        ) : (
+          <div className="text-center col-span-full text-gray-500">No quotations available</div>
+        )}
       </div>
     </div>
   );

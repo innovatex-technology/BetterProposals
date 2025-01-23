@@ -34,6 +34,7 @@ const QuotationSchema = new mongoose.Schema({
     totalUnits: { type: Number, required: true },
     grandTotal: { type: Number, required: true },
   },
+  status: { type: String, required: false },
 });
 
 module.exports = mongoose.model('Quotation', QuotationSchema);

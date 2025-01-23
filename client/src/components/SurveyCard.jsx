@@ -30,7 +30,7 @@ export default function SurveyCard({ quotation }) {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">{quotation.title}</h3>
+        <h3 className="text-lg font-semibold text-gray-800">{quotation.quotationNo}</h3>
         <span
           className={`px-2 py-1 rounded-full text-sm ${
             quotation.status === 'active'
@@ -43,11 +43,11 @@ export default function SurveyCard({ quotation }) {
           {quotation.status}
         </span>
       </div>
-      <p className="text-gray-600 mb-4">{quotation.description}</p>
+      <p className="text-gray-600 mb-4">{quotation.quotationTitle}</p>
       <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
         <div className="flex items-center">
           <Calendar size={16} className="mr-1" />
-          <span>{quotation.dueDate}</span>
+          <span>{quotation.date}</span>
         </div>
         
         {/* Display Respondents and Completion Rate only when status is 'completed' */}
@@ -55,11 +55,11 @@ export default function SurveyCard({ quotation }) {
           <>
             <div className="flex items-center">
               <Users size={16} className="mr-1" />
-              <span>{quotation.respondents} respondents</span>
+              <span> respondents</span>
             </div>
             <div className="flex items-center">
               <CheckSquare size={16} className="mr-1" />
-              <span>{quotation.completionRate}% completed</span>
+              <span>{quotation.items}% completed</span>
             </div>
           </>
         )}
