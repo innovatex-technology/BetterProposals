@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function SurveyCard({ quotation }) {
+  console.log("quotation::::::::::",quotation);
   const navigate = useNavigate();
   const [shareLink, setShareLink] = useState('');
 
   // Handle actions based on quotation status
   const handleViewDetails = () => {
-    navigate(`/quotations/${quotation.id}`); // Navigate to the Quotation Details Page with the quotation ID
+    navigate(`/quotations/${quotation._id}`); // Navigate to the Quotation Details Page with the quotation ID
   };
 
   const handleCreateQuotation = () => {
@@ -16,7 +17,7 @@ export default function SurveyCard({ quotation }) {
   };
 
   const handleGenerateLink = () => {
-    const generatedLink = `${window.location.origin}/user-quotation/${quotation.id}`; // Generate a unique link
+    const generatedLink = `${window.location.origin}/user-quotation/${quotation._id}`; // Generate a unique link
     setShareLink(generatedLink); // Store the link for copying
   };
 
@@ -53,20 +54,28 @@ export default function SurveyCard({ quotation }) {
         {/* Display Respondents and Completion Rate only when status is 'completed' */}
         {quotation.status === 'completed' && (
           <>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <Users size={16} className="mr-1" />
               <span> respondents</span>
-            </div>
+            </div> */}
             <div className="flex items-center">
               <CheckSquare size={16} className="mr-1" />
-              <span>{quotation.items}% completed</span>
+              <span>{quotation.status}</span>
             </div>
           </>
         )}
       </div>
 
+
       {/* Conditional Button Rendering */}
       <div className="flex justify-end gap-4">
+      {/* <button
+            onClick={handleViewDetails}
+            className="text-indigo-600 hover:text-indigo-800 flex items-center space-x-1"
+          >
+            <span>View Details</span>
+            <ExternalLink size={16} />
+          </button> */}
         {quotation.status === 'completed' && (
           <button
             onClick={handleViewDetails}

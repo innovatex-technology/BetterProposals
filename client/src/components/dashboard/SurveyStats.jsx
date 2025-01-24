@@ -1,8 +1,10 @@
-import { BarChart2, Users, CheckSquare } from 'lucide-react';
+// In SurveyStats.js
+import { BarChart2 } from 'lucide-react';
 
-export default function SurveyStats() {
+export default function SurveyStats({ activeProposals, draftProposals, completedProposals }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* Active Proposal Card */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center space-x-4">
           <div className="bg-blue-100 p-3 rounded-lg">
@@ -10,54 +12,36 @@ export default function SurveyStats() {
           </div>
           <div>
             <p className="text-gray-600">Active Proposal</p>
-            <h3 className="text-2xl font-bold">24</h3>
+            <h3 className="text-2xl font-bold">{activeProposals}</h3>
           </div>
         </div>
       </div>
+
+      {/* Draft Proposal Card */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center space-x-4">
-          <div className="bg-blue-100 p-3 rounded-lg">
-            <BarChart2 size={24} className="text-blue-600" />
+          <div className="bg-yellow-100 p-3 rounded-lg">
+            <BarChart2 size={24} className="text-yellow-600" />
           </div>
           <div>
             <p className="text-gray-600">Draft Proposal</p>
-            <h3 className="text-2xl font-bold">1</h3>
+            <h3 className="text-2xl font-bold">{draftProposals}</h3>
           </div>
         </div>
       </div>
+
+      {/* Completed Proposal Card */}
       <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center space-x-4">
-          <div className="bg-blue-100 p-3 rounded-lg">
-            <BarChart2 size={24} className="text-blue-600" />
-          </div>
-          <div>
-            <p className="text-gray-600">completed Proposal</p>
-            <h3 className="text-2xl font-bold">24</h3>
-          </div>
-        </div>
-      </div>
-      {/* <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center space-x-4">
           <div className="bg-green-100 p-3 rounded-lg">
-            <Users size={24} className="text-green-600" />
+            <BarChart2 size={24} className="text-green-600" />
           </div>
           <div>
-            <p className="text-gray-600">Total Respondents</p>
-            <h3 className="text-2xl font-bold">1,234</h3>
+            <p className="text-gray-600">Completed Proposal</p>
+            <h3 className="text-2xl font-bold">{completedProposals}</h3>
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center space-x-4">
-          <div className="bg-purple-100 p-3 rounded-lg">
-            <CheckSquare size={24} className="text-purple-600" />
-          </div>
-          <div>
-            <p className="text-gray-600">Completion Rate</p>
-            <h3 className="text-2xl font-bold">85%</h3>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }

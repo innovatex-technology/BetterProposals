@@ -9,8 +9,7 @@ export default function SurveyListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Assuming we are handling login state here (could be from context or global state)
-  const isLoggedIn = true; // Replace with actual login state logic
+  const isLoggedIn = true; 
 
   // Fetch quotations from the API
   const fetchQuotations = async () => {
@@ -30,6 +29,7 @@ export default function SurveyListPage() {
 
       const data = await response.json();
       setQuotations(data.data || []); // Update state with fetched quotations
+      console.log("data::::::::::",data.data);
     } catch (err) {
       setError("An error occurred while fetching the quotations.");
       console.error("Error while fetching quotations:", err);

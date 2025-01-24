@@ -75,6 +75,6 @@ router.post("/api/v1/register",createUser);
 router.post('/api/v1/quotation', saveQuotation);
 router.get('/api/v1/quotations', getAllQuotations);
 router.put('/api/v1/quotation/:id', updateQuotation);
-router.get('/api/v1/quotation/:id', getQuotationById);
+router.get('/api/v1/quotations/:id', getQuotationById);
 
 module.exports = router;

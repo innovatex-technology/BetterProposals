@@ -8,178 +8,15 @@ import { apiService } from "../common/apiService";
 
 const SurveyReportPage = () => {
   const { id } = useParams();
-  const [quotations, setQuotations] = useState();
-    const [error, setError] = useState(null);
-   const quotation = location?.state?.quotation || {
-    totals: {
-      totalArea: 2,
-      totalUnits: 7,
-      grandTotal: 28,
-    },
-    _id: "67911339c204e0f0a0c5ac5d",
-    companyLogo: companyLogo, // Dummy logo URL
-    companyName: "Galaxy enclave pvt. ltd.",
-    cin: "U12345RJ2023PTC123456",
-    companyAddress:
-      "Sp-5 mansarover industrial area rico, jaipur-302020,rajasthan",
-    quotationNo: "QT-00123",
-    date: "2025-01-22T00:00:00.000Z",
-    clientName: "John Doe",
-    clientAddress: "456 Business Lane, Jaipur",
-    quotationTitle: "quotation",
-    items: [
-      {
-        area: 2,
-        color: "Blue",
-        glazing: "Single",
-        id: "1737558248214",
-        imageHeight: 2,
-        imageWidth: 6,
-        name: "Window Panel",
-        quantity: 7,
-        size: "Large",
-        total: 28,
-        type: "Option2",
-        unitPrice: 4,
-        _id: "67911339c204e0f0a0c5ac5e",
-      },
-      {
-        area: 50,
-        color: "Blue",
-        glazing: "Single",
-        id: "1737558248214",
-        imageHeight: 2,
-        imageWidth: 6,
-        name: "Window Panel",
-        quantity: 5,
-        size: "Large",
-        total: 250,
-        type: "Option1",
-        unitPrice: 50,
-        _id: "67911339c204e0f0a0c5ac5e",
-      }
-    ],
-    discount: 5,
-    __v: 0,
-  };
-
-
-  // const quotations = [
-  //   {
-  //     totals: {
-  //       totalArea: 100,
-  //       totalUnits: 20,
-  //       grandTotal: 500,
-  //     },
-  //     _id: "67911339c204e0f0a0c5ac5d",
-  //     companyLogo: "https://dummyimage.com/100x100/000/fff&text=Company+Logo",
-  //     companyName: "Galaxy Enclave Pvt. Ltd.",
-  //     cin: "U12345RJ2023PTC123456",
-  //     companyAddress: "Sp-5 Mansarover Industrial Area, Jaipur-302020, Rajasthan",
-  //     quotationNo: "QT-00123",
-  //     date: "2025-01-22T00:00:00.000Z",
-  //     clientName: "John Doe",
-  //     clientAddress: "456 Business Lane, Jaipur",
-  //     quotationTitle: "Quotation for Windows",
-  //     items: [
-  //       {
-  //         area: 50,
-  //         color: "Blue",
-  //         glazing: "Single",
-  //         id: "1737558248214",
-  //         imageHeight: 2,
-  //         imageWidth: 6,
-  //         name: "Window Panel",
-  //         quantity: 5,
-  //         size: "Large",
-  //         total: 250,
-  //         type: "Option1",
-  //         unitPrice: 50,
-  //         _id: "67911339c204e0f0a0c5ac5e",
-  //       }
-  //     ],
-  //     discount: 10,
-  //     __v: 0,
-  //   },
-  //   {
-  //     totals: {
-  //       totalArea: 200,
-  //       totalUnits: 15,
-  //       grandTotal: 700,
-  //     },
-  //     _id: "67911339c204e0f0a0c5ac5g",
-  //     companyLogo: "https://dummyimage.com/100x100/333/fff&text=Company+Logo",
-  //     companyName: "Star Construction Pvt. Ltd.",
-  //     cin: "U12345RJ2024PTC789012",
-  //     companyAddress: "123 Industrial Area, Jaipur-302015, Rajasthan",
-  //     quotationNo: "QT-00124",
-  //     date: "2025-01-23T00:00:00.000Z",
-  //     clientName: "Jane Smith",
-  //     clientAddress: "789 Business Street, Udaipur",
-  //     quotationTitle: "Quotation for Construction Materials",
-  //     items: [
-  //       {
-  //         area: 70,
-  //         color: "White",
-  //         glazing: "Triple",
-  //         id: "1737558248216",
-  //         imageHeight: 4,
-  //         imageWidth: 8,
-  //         name: "Ceiling Panel",
-  //         quantity: 10,
-  //         size: "Large",
-  //         total: 500,
-  //         type: "Option3",
-  //         unitPrice: 50,
-  //         _id: "67911339c204e0f0a0c5ac5h",
-  //       }
-  //     ],
-  //     discount: 15,
-  //     __v: 0,
-  //   },
-  //   {
-  //     totals: {
-  //       totalArea: 300,
-  //       totalUnits: 25,
-  //       grandTotal: 1200,
-  //     },
-  //     _id: "67911339c204e0f0a0c5ac5j",
-  //     companyLogo: "https://dummyimage.com/100x100/555/fff&text=Company+Logo",
-  //     companyName: "Alpha BuildTech Pvt. Ltd.",
-  //     cin: "U12345RJ2025PTC456789",
-  //     companyAddress: "456 Tech Park, Jaipur-302001, Rajasthan",
-  //     quotationNo: "QT-00125",
-  //     date: "2025-01-24T00:00:00.000Z",
-  //     clientName: "Michael Johnson",
-  //     clientAddress: "123 Urban Square, Jodhpur",
-  //     quotationTitle: "Quotation for Custom Glass Work",
-  //     items: [
-  //       {
-  //         area: 150,
-  //         color: "Clear",
-  //         glazing: "Single",
-  //         id: "1737558248218",
-  //         imageHeight: 5,
-  //         imageWidth: 10,
-  //         name: "Custom Glass",
-  //         quantity: 15,
-  //         size: "Extra Large",
-  //         total: 900,
-  //         type: "Option5",
-  //         unitPrice: 60,
-  //         _id: "67911339c204e0f0a0c5ac5k",
-  //       }
-  //     ],
-  //     discount: 20,
-  //     __v: 0,
-  //   },
-  // ];
+  const [quotations, setQuotations] = useState(null); // Store fetched quotations
+  const [error, setError] = useState(null);
+  const reportRef = useRef();
 
   // Fetch quotations from the API
   const fetchQuotations = async () => {
     try {
       const response = await apiService({
-        path: `/quotation/67911339c204e0f0a0c5ac5d`, // API endpoint with ID
+        path: `/quotations/${id}`, // Dynamic API endpoint
         method: "GET",
       });
 
@@ -191,19 +28,17 @@ const SurveyReportPage = () => {
       }
 
       const data = await response.json();
-      console.log("data:::",data.data );
-      setQuotations(data.data || []); // Update state with fetched quotations
+      setQuotations(data.data || {}); // Update state with fetched quotations
     } catch (err) {
       setError("An error occurred while fetching the quotations.");
       console.error("Error while fetching quotations:", err);
-    } 
+    }
   };
 
   // Call fetchQuotations on page load
   useEffect(() => {
     fetchQuotations();
   }, [id]);
-  const reportRef = useRef();
 
   // Handle Print
   const handlePrint = () => {
@@ -224,6 +59,15 @@ const SurveyReportPage = () => {
     });
   };
 
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
+
+  if (!quotations) {
+    return <p>Loading...</p>;
+  }
+
+  const { companyName, cin, companyAddress, quotationNo, date, clientName, clientAddress, quotationTitle, items, discount, totals } = quotations;
 
 
   return (
@@ -248,16 +92,16 @@ const SurveyReportPage = () => {
               <div className="w-1/2">
                 <p>
                   <strong className="uppercase underline font-bold">
-                    {quotation.companyName}
+                    {companyName}
                   </strong>
                 </p>
                 <p>
                   <strong>CIN:</strong>{" "}
-                  <strong className="uppercase">{quotation.cin}</strong>
+                  <strong className="uppercase">{cin}</strong>
                 </p>
                 <p>
                   <strong>ADD:</strong>{" "}
-                  <strong className="uppercase">{quotation.companyAddress}</strong>
+                  <strong className="uppercase">{companyAddress}</strong>
                 </p>
               </div>
 
@@ -277,17 +121,17 @@ const SurveyReportPage = () => {
             <div className="text-center mb-4">
               <p>
                 <strong className="uppercase underline font-bold">
-                  {quotation.quotationTitle}
+                  {quotationTitle}
                 </strong>
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <p className="text-left">
-                <strong>Date:</strong> {new Date(quotation.date).toLocaleDateString()}
+                <strong>Date:</strong> {new Date(date).toLocaleDateString()}
               </p>
               <p className="text-right">
-                <strong>Quotation No:</strong> {quotation.quotationNo}
+                <strong>Quotation No:</strong> {quotationNo}
               </p>
             </div>
           </div>
@@ -297,16 +141,16 @@ const SurveyReportPage = () => {
             <h2 className="text-lg font-semibold mb-2">To</h2>
             <div>
               <p>
-                <strong className="uppercase font-bold">{quotation.clientName}</strong>
+                <strong className="uppercase font-bold">{clientName}</strong>
               </p>
-              <p>{quotation.clientAddress}</p>
+              <p>{clientAddress}</p>
             </div>
           </div>
 
           {/* Items Table */}
-          {quotation.items.map((item) => (
+          {items.map((item, index) => (
             <>
-              <table className="w-full border-collapse border-none bg-white">
+              <table className="w-full border-collapse border-none bg-white" key={item._id || index}>
                 <thead>
                   <tr className="bg-white">
                     <th className="border-t border-l px-4 py-2">Position</th>
@@ -347,7 +191,7 @@ const SurveyReportPage = () => {
 
                   {/* Render Items */}
                   {/* {quotation.items.map((item) => ( */}
-                  <tr key={item._id}>
+                  <tr>
                     <td
                       colSpan="5"
                       className="border-b col-span-5 border-l border-r px-4 py-2"
@@ -395,19 +239,19 @@ const SurveyReportPage = () => {
             {/* First Row: Grand Total */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Grand Total</h2>
-              <p>{quotation.discount} INR</p>
+              <p>{discount} INR</p>
             </div>
 
             {/* Second Row: Total Sqft, Total Units, Price Per Sqft */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <p className="text-left">
-                <strong>Total Sqft:</strong> {quotation.totals.totalArea} Sqft
+                <strong>Total Sqft:</strong> {totals.totalArea} Sqft
               </p>
               <p className="text-center">
-                <strong>Total Units:</strong> {quotation.totals.totalUnits} Sqft
+                <strong>Total Units:</strong> {totals.totalUnits} Sqft
               </p>
               <p className="text-right">
-                <strong>Price Per Sqft:</strong> ${quotation.totals.grandTotal} INR
+                <strong>Price Per Sqft:</strong> ${totals.grandTotal} INR
               </p>
             </div>
           </div>
