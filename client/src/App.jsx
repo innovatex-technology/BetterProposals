@@ -13,6 +13,7 @@ import SurveyReportPage from './components/report/SurveyReportPage';
 import QuotationForm from './components/quotation/QuotationForm';
 import ProductPricing from './components/feature/ProductPricing';
 import PaymentPage from './components/payment/PaymentPage';
+import WindowSVG from './components/quotation/WindowSVG'
 
 
 function App() {
@@ -32,11 +33,14 @@ function App() {
             <Route path="/create-quotations" element={<SurveyFormPage />} />
             <Route path="/quotations" element={<SurveyListPage />} />
             <Route path="/survey/:id" element={<SurveyDetailPage/>} />
-            <Route path="/reports" element={<SurveyReportPage/>} />
+            {/* <Route path="/reports" element={<SurveyReportPage/>} /> */}
             <Route path="/quotations/:id" element={<SurveyReportPage/>} />
             <Route path="/user-survey" element={<UserSurveySystem/>} />
-            <Route path="/user-survey/:id" element={<UserSurveySystem/>} />
+            {/* <Route path="/user-quotation/:id" element={<UserSurveySystem/>} /> */}
+            <Route path="/user-quotation/:id" element={<SurveyReportPage/>} />
             <Route path="/quotation" element={<QuotationForm/>} />
+            <Route path="/reports" element={<WindowSVG/>} />
+            
           </Routes>
         </main>
         <Footer />

@@ -275,6 +275,7 @@ export default function SurveyFormPage() {
                             alignItems: "center",
                           }}
                         >
+                          
                           {/* Add any item-specific SVG content if available */}
                         </svg>
                         <div className="flex-1">
@@ -287,8 +288,6 @@ export default function SurveyFormPage() {
                           <p>System: {item.size}</p>
                           <p>Colours: {item.color}</p>
                           <p>Glazing: {item.glazing}</p>
-                          <p>Unit Price: {item.unitPrice} INR</p>
-                          <p>Total: {item.total} INR</p>
                         </div>
                       </div>
                     </td>
